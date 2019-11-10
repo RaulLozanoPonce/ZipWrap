@@ -39,12 +39,15 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         progressBar = new javax.swing.JProgressBar();
+        jPanel1 = new javax.swing.JPanel();
+        inputPathButton = new javax.swing.JButton();
         inputPathLabel = new javax.swing.JLabel();
-        outputPathLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         compressButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        inputPathButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         outputPathButton = new javax.swing.JButton();
+        outputPathLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         appMenu = new javax.swing.JMenu();
         resetMenuItem = new javax.swing.JMenuItem();
@@ -62,11 +65,37 @@ public class ZipWrapFrame extends javax.swing.JFrame {
             }
         });
 
+        inputPathButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        inputPathButton.setText("Seleccionar Directorio");
+        inputPathButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        inputPathButton.setPreferredSize(new java.awt.Dimension(150, 25));
+        inputPathButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputPathButtonActionPerformed(evt);
+            }
+        });
+
         inputPathLabel.setText(" ");
         inputPathLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        inputPathLabel.setMaximumSize(new java.awt.Dimension(50, 25));
+        inputPathLabel.setMinimumSize(new java.awt.Dimension(50, 25));
+        inputPathLabel.setPreferredSize(new java.awt.Dimension(50, 25));
 
-        outputPathLabel.setText(" ");
-        outputPathLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(inputPathButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(inputPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(inputPathButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inputPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         compressButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         compressButton.setText("Comprimir");
@@ -84,23 +113,57 @@ public class ZipWrapFrame extends javax.swing.JFrame {
             }
         });
 
-        inputPathButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        inputPathButton.setText("Seleccionar Directorio");
-        inputPathButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        inputPathButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputPathButtonActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(compressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(compressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         outputPathButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         outputPathButton.setText("Seleccionar Destino");
         outputPathButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        outputPathButton.setMaximumSize(new java.awt.Dimension(150, 25));
+        outputPathButton.setMinimumSize(new java.awt.Dimension(150, 25));
+        outputPathButton.setPreferredSize(new java.awt.Dimension(150, 25));
         outputPathButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 outputPathButtonActionPerformed(evt);
             }
         });
+
+        outputPathLabel.setText(" ");
+        outputPathLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(outputPathButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(outputPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(outputPathButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(outputPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         appMenu.setText("Aplicación");
 
@@ -158,50 +221,34 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(outputPathButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputPathButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(inputPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(outputPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(compressButton, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputPathButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(inputPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(outputPathButton)
-                    .addComponent(outputPathLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(compressButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void inputPathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPathButtonActionPerformed
-        String path = pathLoad(outputPath);
-        if(path != null) inputPath = path;
+        setPath("input");
         setPathLabels();
         setButtonState();
     }//GEN-LAST:event_inputPathButtonActionPerformed
@@ -220,8 +267,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void outputPathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputPathButtonActionPerformed
-        String path = pathLoad(inputPath);
-        if(path != null) outputPath = path;
+        setPath("output");
         setPathLabels();
         setButtonState();
     }//GEN-LAST:event_outputPathButtonActionPerformed
@@ -299,6 +345,25 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         cancelButton.setEnabled(worker.running);
     }
     
+    private void setPath(String whichPath){
+        if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+            if("input".equals(whichPath)){
+                inputPath = fileChooser.getSelectedFile().getAbsolutePath();
+            }else{
+                outputPath = fileChooser.getSelectedFile().getAbsolutePath();
+            }
+            if(inputPath.equals(outputPath)){
+                JOptionPane.showMessageDialog(null, 
+                        "El directorio a comprimir no debe coincidir con el destino.",
+                        "Directorios incompatibles", JOptionPane.ERROR_MESSAGE);
+            }else if(!isValidPath(inputPath, outputPath)){
+                JOptionPane.showMessageDialog(null, 
+                        "El directorio destino no puede estar contenido en el directorio a comprimir.",
+                        "Directorios incompatibles", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     private boolean isValidPath(String input, String output){
         String newInput = input + '\\';
         String newOutput = output + '\\';
@@ -308,22 +373,6 @@ public class ZipWrapFrame extends javax.swing.JFrame {
             }
         }
         return newInput.length() > newOutput.length();
-    }
-    
-    private String pathLoad(String anotherDirectory){
-        String path = null;
-        if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-            path = fileChooser.getSelectedFile().getAbsolutePath();
-        }
-        if(path != null){
-            if(path.equals(anotherDirectory)){
-                JOptionPane.showMessageDialog(null, 
-                        "El directorio a comprimir no debe coincidir con el destino.", 
-                        "Directorios incompatibles", JOptionPane.ERROR_MESSAGE);
-                return null;
-            }
-        }
-        return path;
     }
     
     private boolean checkIfFileExists(String path){
@@ -384,6 +433,9 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem infoMenuItem;
     private javax.swing.JButton inputPathButton;
     private javax.swing.JLabel inputPathLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JMenuBar menuBar;
