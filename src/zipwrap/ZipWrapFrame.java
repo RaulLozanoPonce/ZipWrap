@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -104,6 +106,11 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         appMenu.setText("Aplicación");
 
         resetMenuItem.setText("Resetear");
+        resetMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetMenuItemActionPerformed(evt);
+            }
+        });
         appMenu.add(resetMenuItem);
         appMenu.add(jSeparator2);
 
@@ -182,8 +189,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_inputPathButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        worker.cancel(true);
-        worker = null;
+        worker.stopThread();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -204,6 +210,10 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         worker = new Worker1();
         worker.execute();
     }//GEN-LAST:event_compressButtonActionPerformed
+
+    private void resetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetMenuItemActionPerformed
+        
+    }//GEN-LAST:event_resetMenuItemActionPerformed
 
     private void setApp(){
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -326,8 +336,12 @@ public class ZipWrapFrame extends javax.swing.JFrame {
 
     class Worker1 extends SwingWorker<Boolean, Integer> {
         
+        private boolean running;
+        private FileOutputStream dest;
+        
         @Override
         protected Boolean doInBackground() throws Exception {
+            running = true;
             File inputFolder = new File(inputPath);
             zipPath = outputPath + File.separator + inputFolder.getName() + ".zip";
             if(!checkIfFileExists(zipPath)){
@@ -337,7 +351,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
                 float currentSize = 0;
                 byte[] data = new byte[size];
                 BufferedInputStream origin = null;
-                FileOutputStream dest = new FileOutputStream(zipPath);
+                dest = new FileOutputStream(zipPath);
                 try {
                     ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
                     for (File file : files) {
@@ -350,7 +364,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
                             out.write(data, 0, count);
                             currentSize += count;
                             publish((int) (100*currentSize/size));
-                            if(isCancelled()) return false;
+                            if(!running) return false;
                         }
                         origin.close();
                     }
@@ -363,13 +377,24 @@ public class ZipWrapFrame extends javax.swing.JFrame {
 
         @Override
         protected void done() {
-            progressBar.setValue(0);
+            running = false;
             cancelButton.setEnabled(false);
+            progressBar.setValue(0);
         }
 
         @Override
         protected void process(List<Integer> chunks) {
             progressBar.setValue(chunks.get(0));
         }
+        
+        public void stopThread() {
+            running = false;
+            cancelButton.setEnabled(false);
+            progressBar.setValue(0);
+            try {
+                dest.close();
+                new File(zipPath).delete();
+            } catch (IOException ex) {}
+	}
     }
 }
