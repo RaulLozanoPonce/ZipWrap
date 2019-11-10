@@ -486,9 +486,15 @@ public class ZipWrapFrame extends javax.swing.JFrame {
                             "Compresión completada", JOptionPane.PLAIN_MESSAGE);
                     return true;
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, 
-                            "Se ha producido un error en la compresión de la carpeta.", 
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    if(!running){
+                        JOptionPane.showMessageDialog(null, 
+                                "Se ha cancelado el proceso de compresión.", 
+                                "Cancelado", JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, 
+                                "Se ha producido un error en la compresión de la carpeta.", 
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
             return false;
