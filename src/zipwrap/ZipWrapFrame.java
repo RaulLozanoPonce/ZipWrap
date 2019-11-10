@@ -1,5 +1,6 @@
 package zipwrap;
 
+import java.awt.Toolkit;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.zip.*;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,18 +20,18 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     private JFileChooser fileChooser;
     private String inputPath;
     private String outputPath;
-    private String zipPath;
     private Worker1 worker;
     
     public ZipWrapFrame() {
+        worker = new Worker1();
         initComponents();
         setApp();
         setFileFilter();
         setMnemonic();
         inputPath = "";
         outputPath = "";
-        compressButton.setEnabled(false);
-        cancelButton.setEnabled(false);
+        setPathLabels();
+        setButtonState();
     }
     
     @SuppressWarnings("unchecked")
@@ -105,6 +104,8 @@ public class ZipWrapFrame extends javax.swing.JFrame {
 
         appMenu.setText("Aplicación");
 
+        resetMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        resetMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Photos/reset.png"))); // NOI18N
         resetMenuItem.setText("Resetear");
         resetMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +115,8 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         appMenu.add(resetMenuItem);
         appMenu.add(jSeparator2);
 
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Photos/Exit.png"))); // NOI18N
         exitMenuItem.setText("Salir");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,11 +129,25 @@ public class ZipWrapFrame extends javax.swing.JFrame {
 
         helpMenu.setText("Ayuda");
 
-        infoMenuItem.setText("Info");
+        infoMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        infoMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Photos/Help_App.png"))); // NOI18N
+        infoMenuItem.setText("Ayuda");
+        infoMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(infoMenuItem);
         helpMenu.add(jSeparator1);
 
+        aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        aboutMenuItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Photos/Info_App.png"))); // NOI18N
         aboutMenuItem.setText("Acerca De");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
@@ -185,11 +202,13 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     private void inputPathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPathButtonActionPerformed
         String path = pathLoad(outputPath);
         if(path != null) inputPath = path;
-        resetPathLabels();
+        setPathLabels();
+        setButtonState();
     }//GEN-LAST:event_inputPathButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         worker.stopThread();
+        setButtonState();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
@@ -203,23 +222,43 @@ public class ZipWrapFrame extends javax.swing.JFrame {
     private void outputPathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputPathButtonActionPerformed
         String path = pathLoad(inputPath);
         if(path != null) outputPath = path;
-        resetPathLabels();
+        setPathLabels();
+        setButtonState();
     }//GEN-LAST:event_outputPathButtonActionPerformed
 
     private void compressButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compressButtonActionPerformed
         worker = new Worker1();
         worker.execute();
+        setButtonState();
     }//GEN-LAST:event_compressButtonActionPerformed
 
     private void resetMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetMenuItemActionPerformed
-        
+        inputPath = "";
+        outputPath = "";
+        setPathLabels();
+        setButtonState();
     }//GEN-LAST:event_resetMenuItemActionPerformed
+
+    private void infoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoMenuItemActionPerformed
+        String url_open ="https://support.microsoft.com/es-es/help/14200/windows-compress-uncompress-zip-filesS";
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, 
+                    "La página web no ha sido cargada.", 
+                    "Página web no cargada", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_infoMenuItemActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        JOptionPane.showMessageDialog(null, "Diseñado por:\n ➡ Raúl Lozano Ponce\n ➡ Pablo Perdomo Falcón", "Acerca De ZipWrap", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
 
     private void setApp(){
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
         setMinimumSize(getPreferredSize());
-        //setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Photos/Logo.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Photos/Logo.png")));
         setTitle("ZipWrap");
     }
     
@@ -243,6 +282,34 @@ public class ZipWrapFrame extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
     
+    private void setPathLabels(){
+        inputPathLabel.setText(inputPath);
+        outputPathLabel.setText(outputPath);
+    }
+    
+    private void setButtonState(){
+        resetMenuItem.setEnabled(!worker.running);
+        inputPathButton.setEnabled(!worker.running);
+        outputPathButton.setEnabled(!worker.running);
+        if(!"".equals(inputPath) && !"".equals(outputPath) && isValidPath(inputPath, outputPath) && !worker.running){
+            compressButton.setEnabled(true);
+        }else{
+            compressButton.setEnabled(false);
+        }
+        cancelButton.setEnabled(worker.running);
+    }
+    
+    private boolean isValidPath(String input, String output){
+        String newInput = input + '\\';
+        String newOutput = output + '\\';
+        for (int i = 0; i < Math.min(newInput.length(), newOutput.length()); i++) {
+            if(newInput.charAt(i) != newOutput.charAt(i)){
+                return true;
+            }
+        }
+        return newInput.length() > newOutput.length();
+    }
+    
     private String pathLoad(String anotherDirectory){
         String path = null;
         if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
@@ -259,11 +326,14 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         return path;
     }
     
-    private void resetPathLabels(){
-        inputPathLabel.setText(inputPath);
-        outputPathLabel.setText(outputPath);
-        if(!"".equals(inputPath) && !"".equals(outputPath)){
-            compressButton.setEnabled(true);
+    private boolean checkIfFileExists(String path){
+        if(new File(path).exists()){
+            return JOptionPane.showConfirmDialog(null, 
+                    "Ya existe un archivo con el nombre especificado. ¿Desea sobreescribirlo?", 
+                    "Nombre existente", JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION;
+        }else{
+            return false;
         }
     }
     
@@ -279,6 +349,14 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         return files;
     }
     
+    private long getFolderLength(List<File> files){
+        long size = 0;
+        for (File file : files) {
+            size += file.length();
+        }
+        return size;
+    }
+    
     private String getRelativePath(String absolutePath, String rootPath){
         if(absolutePath.length() <= rootPath.length()){
             return "";
@@ -289,25 +367,6 @@ public class ZipWrapFrame extends javax.swing.JFrame {
             }
         }
         return absolutePath.substring(rootPath.length() + 1);
-    }
-    
-    private long getFolderLength(List<File> files){
-        long size = 0;
-        for (File file : files) {
-            size += file.length();
-        }
-        return size;
-    }
-    
-    private boolean checkIfFileExists(String path){
-        if(new File(path).exists()){
-            return JOptionPane.showConfirmDialog(null, 
-                    "Ya existe un archivo con el nombre especificado. ¿Desea sobreescribirlo?", 
-                    "Nombre existente", JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION;
-        }else{
-            return false;
-        }
     }
     
     public static void main(String args[]) throws Exception {
@@ -338,6 +397,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         
         private boolean running;
         private FileOutputStream dest;
+        private String zipPath;
         
         @Override
         protected Boolean doInBackground() throws Exception {
@@ -345,7 +405,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
             File inputFolder = new File(inputPath);
             zipPath = outputPath + File.separator + inputFolder.getName() + ".zip";
             if(!checkIfFileExists(zipPath)){
-                cancelButton.setEnabled(true);
+                setButtonState();
                 List<File> files = getAllFiles(inputFolder);
                 int size = (int) getFolderLength(files);
                 float currentSize = 0;
@@ -369,8 +429,15 @@ public class ZipWrapFrame extends javax.swing.JFrame {
                         origin.close();
                     }
                     out.close();
+                    JOptionPane.showMessageDialog(null, 
+                            "La compresión de la carpeta ha sido completada con éxito.", 
+                            "Compresión completada", JOptionPane.PLAIN_MESSAGE);
                     return true;
-                } catch (IOException ex) {}
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, 
+                            "Se ha producido un error en la compresión de la carpeta.", 
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
             return false;
         }
@@ -378,7 +445,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         @Override
         protected void done() {
             running = false;
-            cancelButton.setEnabled(false);
+            setButtonState();
             progressBar.setValue(0);
         }
 
@@ -389,7 +456,7 @@ public class ZipWrapFrame extends javax.swing.JFrame {
         
         public void stopThread() {
             running = false;
-            cancelButton.setEnabled(false);
+            setButtonState();
             progressBar.setValue(0);
             try {
                 dest.close();
